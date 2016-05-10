@@ -1,33 +1,33 @@
 #!/usr/bin/env python
+import ctypes as ct
 import os
 import os.path
 import sys
-from ctypes import *
 
 try:
-    _lib = CDLL("student.dll")
+    _lib = ct.CDLL("student.dll")
 except OSError:
     try:
         if getattr(sys, "frozen", False):
-            exedir = os.path.dirname(sys.executable)
+            _exedir = os.path.dirname(sys.executable)
         elif hasattr(sys.modules["__main__"], "__file__"):
-            exedir = os.path.dirname(sys.modules["__main__"].__file__)
+            _exedir = os.path.dirname(sys.modules["__main__"].__file__)
         else:
-            exedir = "."
-        _lib = CDLL(os.path.join(exedir, "libstudent.so"))
+            _exedir = "."
+        _lib = ct.CDLL(os.path.join(_exedir, "libstudent.so"))
     except OSError:
         raise OSError("Could not load student.dll or libstudent.so")
 
 # Student student_create(const char* name)
-_lib.student_create.argtypes = [c_char_p]
-_lib.student_create.restype = c_void_p
+_lib.student_create.argtypes = [ct.c_char_p]
+_lib.student_create.restype = ct.c_void_p
 
 # const char* student_name(Student student)
-_lib.student_name.argtypes = [c_void_p]
-_lib.student_name.restype = c_char_p
+_lib.student_name.argtypes = [ct.c_void_p]
+_lib.student_name.restype = ct.c_char_p
 
 # void student_delete(Student student)
-_lib.student_delete.argtypes = [c_void_p]
+_lib.student_delete.argtypes = [ct.c_void_p]
 _lib.student_delete.restype = None
 
 class Student(object):
