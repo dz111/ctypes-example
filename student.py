@@ -31,12 +31,14 @@ _lib.student_delete.argtypes = [ct.c_void_p]
 _lib.student_delete.restype = None
 
 class Student(object):
+    _as_parameter_ = None
     def __init__(self, name):
         # type: (str) -> None
         self._as_parameter_ = _lib.student_create(name)
 
     def __del__(self):
-        _lib.student_delete(self)
+        if self._as_parameter_ is not None:
+            _lib.student_delete(self)
 
     def name(self):
         # type: () -> str
