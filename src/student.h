@@ -7,7 +7,7 @@ class StudentImpl {
 public:
   explicit StudentImpl(std::string name);
   ~StudentImpl();
-  std::string get_name();
+  const std::string& get_name();
 private:
   std::string name;
 };

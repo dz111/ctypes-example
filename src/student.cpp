@@ -10,7 +10,7 @@ StudentImpl::~StudentImpl() {
   std::cout << "lib: deleting a student called " << this->name << std::endl;
 }
 
-std::string StudentImpl::get_name() {
+const std::string& StudentImpl::get_name() {
   std::cout << "lib: called get_name on student " << this->name << std::endl;
   return this->name;
 }
