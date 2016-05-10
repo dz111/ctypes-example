@@ -10,8 +10,10 @@ except OSError:
     try:
         if getattr(sys, "frozen", False):
             exedir = os.path.dirname(sys.executable)
-        else:
+        elif hasattr(sys.modules["__main__"], "__file__"):
             exedir = os.path.dirname(sys.modules["__main__"].__file__)
+        else:
+            exedir = "."
         _lib = CDLL(os.path.join(exedir, "libstudent.so"))
     except OSError:
         raise OSError("Could not load student.dll or libstudent.so")
