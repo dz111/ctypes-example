@@ -1,17 +1,18 @@
 #!/usr/bin/env python
+import os
+import os.path
 import sys
-from os import path
 from ctypes import *
-
-#print path.abspath(sys.modules['__main__'].__file__)
 
 try:
     _lib = CDLL("student.dll")
 except OSError:
     try:
-        exepath = path.abspath(sys.modules["__main__"].__file__)
-        exedir = exepath[:exepath.rfind("/")]
-        _lib = CDLL(path.join(exedir, "libstudent.so"))
+        if getattr(sys, "frozen", False):
+            exedir = os.path.dirname(sys.executable)
+        else:
+            exedir = os.path.dirname(sys.modules["__main__"].__file__)
+        _lib = CDLL(os.path.join(exedir, "libstudent.so"))
     except OSError:
         raise OSError("Could not load student.dll or libstudent.so")
 
