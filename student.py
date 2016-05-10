@@ -9,7 +9,9 @@ try:
     _lib = CDLL("student.dll")
 except OSError:
     try:
-        _lib = CDLL("./libstudent.so")
+        exepath = path.abspath(sys.modules["__main__"].__file__)
+        exedir = exepath[:exepath.rfind("/")]
+        _lib = CDLL(path.join(exedir, "libstudent.so"))
     except OSError:
         raise OSError("Could not load student.dll or libstudent.so")
 
